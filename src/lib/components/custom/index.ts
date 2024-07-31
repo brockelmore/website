@@ -1,0 +1,7 @@
+export { default as img } from './img.svelte'
+export { default as a } from './A.svelte'
+export { default as blockquote } from './Blockquote.svelte'
+export { default as p } from './p.svelte'
+export { default as code } from './Code.svelte'
+export { default as h1 } from './h1.svelte'
+export { default as article } from './Article.svelte'

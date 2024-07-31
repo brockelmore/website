@@ -1,0 +1,173 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@supports (font-variation-settings: normal) {
+	@font-face {
+		font-family: 'DMSans';
+		font-style: normal;
+		font-weight: 100 900;
+		font-display: swap;
+		src: url('../static/fonts/DMSans-VariableFont_opsz\,wght.ttf') format('ttf');
+		font-named-instance: 'Regular';
+	}
+
+	@font-face {
+		font-family: 'DMSans';
+		font-style: italic;
+		font-weight: 100 900;
+		font-display: swap;
+		src: url('../static/fonts/DMSans-Italic-VariableFont_opsz\,wght.ttf') format('ttf');
+		font-named-instance: 'Italic';
+	}
+}
+
+@supports not (font-variation-settings: normal) {
+	@font-face {
+		font-named-instance: Regular;
+		font-display: swap;
+		font-family: 'DMMono';
+		font-style: normal;
+		font-weight: 300;
+		src: url('../static/fonts/DMMono-Light.ttf') format('ttf');
+	}
+
+	@font-face {
+		font-named-instance: Regular;
+		font-display: swap;
+		font-family: 'DMMono';
+		font-style: normal;
+		font-weight: 400;
+		src: url('../static/fonts/DMMono-Regular.ttf') format('ttf');
+	}
+
+	@font-face {
+		font-named-instance: Regular;
+		font-display: swap;
+		font-family: 'DMMono';
+		font-style: normal;
+		font-weight: 500;
+		src: url('../static/fonts/DMMono-Medium.ttf') format('ttf');
+	}
+
+	@font-face {
+		font-named-instance: Italic;
+		font-display: swap;
+		font-family: 'DMMono';
+		font-style: italic;
+		font-weight: 400;
+		src: url('../static/fonts/DMMono-Italic.ttf') format('ttf');
+	}
+
+	@font-face {
+		font-named-instance: Italic;
+		font-display: swap;
+		font-family: 'DMMono';
+		font-style: italic;
+		font-weight: 500;
+		src: url('../static/fonts/DMMono-MediumItalic.ttf') format('ttf');
+	}
+
+	@font-face {
+		font-named-instance: Italic;
+		font-display: swap;
+		font-family: 'DMMono';
+		font-style: italic;
+		font-weight: 300;
+		src: url('../static/fonts/DMMono-LightItalic.ttf') format('ttf');
+	}
+}
+
+html,
+body,
+main {
+	@apply scroll-pt-28 bg-gray-1 text-gray-12 md:scroll-pt-20;
+	font-weight: 300;
+}
+
+* {
+	@apply selection:bg-[#FF00FF] selection:text-white;
+	box-sizing: border-box;
+}
+
+a {
+	@apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-9;
+	color: inherit;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+
+button {
+	@apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-9;
+}
+
+@layer utilities {
+	.min-h-screen {
+		min-height: 100dvh;
+	}
+
+	.h-screen {
+		height: 100dvh;
+	}
+}
+
+/* For WebKit-based browsers (Chrome, Safari, and Opera) */
+.hide-scrollbar::-webkit-scrollbar {
+	display: none;
+}
+
+/* For IE, Edge and Firefox */
+.hide-scrollbar {
+	-ms-overflow-style: none;
+	/* IE and Edge */
+	scrollbar-width: none;
+	/* Firefox */
+}
+/*
+.surface-1 {
+	background-color: var(--surface-1);
+	color: var(--text-2);
+}
+
+.surface-2 {
+	background-color: var(--surface-2);
+	color: var(--text-2);
+}
+
+.surface-3 {
+	background-color: var(--surface-3);
+	color: var(--text-1);
+}
+
+.surface-4 {
+	background-color: var(--surface-4);
+	color: var(--text-1);
+}
+
+.prose :is(h2, h3, h4, h5, h6) {
+	margin-top: var(--size-8);
+	margin-bottom: var(--size-3);
+}
+
+.prose p:not(:is(h2, h3, h4, h5, h6) + p) {
+	margin-top: var(--size-7);
+}
+
+.prose :is(ul, ol) {
+	list-style-type: '🔥';
+	padding-left: var(--size-5);
+}
+
+.prose :is(ul, ol) li {
+	margin-block: var(--size-2);
+	padding-inline-start: var(--size-2);
+}
+
+.prose pre {
+	max-inline-size: 100%;
+	padding: var(--size-3);
+	border-radius: 8px;
+	tab-size: 2;
+} */
