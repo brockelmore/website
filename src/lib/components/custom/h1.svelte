@@ -20,7 +20,7 @@
 
 <a
 	bind:this={link}
-	href={'#test'}
+	href={''}
 	class="not-prose group mb-4 flex flex-row w-full items-center gap-3 rounded text-3xl font-semibold tracking-tight text-gray-12 no-underline md:gap-4 md:text-4xl"
 	data-sveltekit-preload-data="off"
 	on:click={() => {
