@@ -109,7 +109,9 @@
     				style="
     				left: {100 * (start / 256)}%
     			"
-    			/>
+    			>
+                <div class="top_handle bg-yellow-400" />
+                </div>
     			<div
     				class="not-prose handle upper_handle after:bg-green-400"
     				class:grabbable={!locked}
@@ -126,7 +128,10 @@
     				style="
     				left: {100 * (end / 256)}%
     			"
-    			/>
+    			>
+                <div class="top_handle bg-green-400" />
+       </div>
+
     			<div class="not-prose labels pt-5">
     				<div
     					class="label"
@@ -156,6 +161,15 @@
 </div>
 
 <style>
+    .top_handle {
+      z-index: 199;
+      width:15px;
+      height:15px;
+      border-radius: 50%;
+      box-sizing: border-box;
+      position: absolute;
+      transform: translate(-50%, -130%);
+    }
 	.slider {
 		position: relative;
 		width: 256px;
