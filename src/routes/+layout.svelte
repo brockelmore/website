@@ -1,6 +1,7 @@
 <script lang="ts">
     import { dev } from '$app/environment';
     import { inject } from '@vercel/analytics';
+    import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit';
 	import Header from './header.svelte'
 	import Footer from './footer.svelte'
 	import PageTransition from './transition.svelte'
@@ -13,6 +14,9 @@
 
 	export let data
 
+
+
+    injectSpeedInsights();
 	inject({ mode: dev ? 'development' : 'production' });
 </script>
 
