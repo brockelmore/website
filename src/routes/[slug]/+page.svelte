@@ -7,7 +7,7 @@
 	export let data
 
 	let origin = $page.origin
-	let ogImgUrl = `https://brocke.xyz/og?description="${encodeURI(data.meta.description)}"&title="${encodeURI(data.meta.title)}"`
+	let ogImgUrl = `https://brocke.xyz/og?description=${encodeURIComponent(data.meta.description.replace("&", "and"))}&title=${encodeURIComponent(data.meta.path)}`
 	// let ogImgUrl = `${origin}/og?description=${data.meta.description}&title=${data.meta.title}`
 </script>
 

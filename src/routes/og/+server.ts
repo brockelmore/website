@@ -42,7 +42,7 @@ async function componentToPng(component, props, height, width) {
 	});
 }
 
-export const GET: RequestHandler = async () => {
+export const GET: RequestHandler = async ({url}) => {
   const description = url.searchParams.get('description') ?? undefined;
   const title = url.searchParams.get('title') ?? undefined;
   return componentToPng(OG, {description: description, title: title}, 1200, 600);

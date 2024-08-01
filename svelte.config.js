@@ -1,4 +1,4 @@
-import {default as auto} from '@sveltejs/adapter-auto'
+import {default as node} from '@sveltejs/adapter-node'
 import {default as vercel} from '@sveltejs/adapter-vercel'
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import { escapeSvelte, mdsvex } from 'mdsvex'
@@ -41,7 +41,7 @@ const config = {
 	extensions: ['.svelte', ...mdsvexOptions.extensions],
 	preprocess: [vitePreprocess(), mdsvex(mdsvexOptions)],
 	kit: {
-	 adapter: process.env.DEV === true ? auto() : vercel(),
+	 adapter: process.env.DEV === true ? node() : vercel(),
   }
 }
 
