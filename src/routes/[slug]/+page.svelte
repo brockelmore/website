@@ -16,7 +16,7 @@
 	<Article fullBleedCodeBlocks={true}>
 		<hgroup>
 			<h1>{data.meta.title}</h1>
-			<p>Published at {formatDate(data.meta.date)}</p>
+			<p>Published on {formatDate(data.meta.date)}</p>
 		</hgroup>
 
 		<div class="flex">

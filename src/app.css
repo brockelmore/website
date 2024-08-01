@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.prose-limit {
+	max-inline-size: var(--size-content-3);
+}
+
 @supports (font-variation-settings: normal) {
 	@font-face {
 		font-family: 'DMSans';

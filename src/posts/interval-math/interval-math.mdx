@@ -1,10 +1,214 @@
 ---
-title: Interval Math
-description: Introduction to interval math.
-date: '2024-7-30'
+title: Interval Math & Analysis
+description: Introduction to interval math & analysis.
+date: '2024-8-1'
 categories:
-  - sveltekit
-  - svelte
+  - pyrometer
+  - math
+  - interval analysis
 published: true
 ---
-# Introduction to Interval Arithmetic in Solidity
+<script>
+  import MathDisplay from '$lib/components/custom/MathDisplay.svelte'
+  import Range from './Range.svelte'
+  import Addition from './Addition.svelte'
+</script>
+
+## Introduction to Interval Arithmetic & Analysis
+
+Interval arithmetic is a form of abstract algebra over an interval of values instead of concrete values.
+That is to say, instead of $$x + x$$ where `x` is a number like $5$, interval arithmetic replaces the $$5$$
+with a representation of a range of values like $$x ∈ [0, 10]$$.
+<br>
+
+_note: $$∈$$ just means "in", and $$[\_, \_]$$ means interval, where the left-hand side number is the lower bound
+and the right-hand side is the upper bound, with an assumed step of size 1. So $$x ∈ [10, 100]$$ reads as "x is in
+the range from 10 to 100". For example:_
+
+
+<Range name={"x"} start={10} end={100} locked={true} showU8={false}/>
+
+
+## Applications to Programming Languages
+
+Applying the concepts of interval arithmetic to code can provide some
+interesting insights:
+1.  Possible under or overflow
+2.  Precision loss analysis
+3.  Access control issues
+4.  Data Validation issues
+
+
+When applying interval arithmetic to code, there are assumptions and rules that could be enforced by the compiler onto
+the arithmetic that is being performed. Default intervals on variables can take lesser or greater bounds, execution may
+halt due to checked arithmetic, etc. When applying interval arithmetic to code, these assumptions and rules can generate
+constraints that are useful in analyzing the security of the program.
+
+
+## Application to Solidity
+
+Solidity has 8 builtin types:
+1.  `uintX`
+2.  `intX`
+3.  `bytesX`
+4.  `address`
+5.  `bool`
+6.  `bytes`
+7.  `string`
+8.  arrays
+
+*note: technically there are some additional internal compiler types
+like `rational_const`, `int_const`, and `uint_const`*.
+
+Each of these type will have a default interval. `uintX`, `intX` and `bytesX` are special because they can
+have multiple sizes. For example, a `uint8` has 8 useable bits. Its default interval can be represented as such:
+
+<Range name={"uint8"} locked={true}/>
+
+or $$uint8 ∈ [0, 255]$$.
+
+In general, applying interval analysis to solidity allows us to know the possible values that an input, variable, or output could be which
+can play a large role in either manually or automatically finding bugs in code. Knowing just the default interval is not helpful though, so we have
+to look at operations that affect a variable and it's interval.
+
+### Solidity Arithmetic Operations
+
+Solidity supports all normal math operations:
+
+  **Operation**            |**Symbol**
+  -------------------------|------------
+  $$Addition$$             |$$+$$
+  $$Subtraction$$          |$$-$$
+  $$Multiplication$$       |$$*$$
+  $$Division$$             |$$/$$
+  $$Modulus$$              |$$\%$$
+  $$Exponentiation$$       |$$**$$
+
+In addition to arithmetic operations, we can also define interval operations
+over memory, bitwise, and logical domains -- but I will save that for another time.
+
+Lets look at an example of interval arithmetic under solidity.
+
+### Interval Addition in Solidity
+By default, all of these operations are *checked*, meaning overflows and underflows throw a revert. Here, we add
+two `uint8`s and return the result.
+
+```solidity
+function add(uint8 a, uint8 b) internal returns (uint8) {
+    return a + b;
+}
+```
+Here is a visualization of the above operation:
+
+<Addition lhs_name={"a"} rhs_name={"b"}/>
+
+Notice how when $$a_{min} + b_{min} > 255$$, the system turns red - this means solidity would
+revert with a `Panic(0x11)` (arithmetic over/underflow).
+
+Also notice how the other side's maximum changes when you change the minimum.
+This is actually an important outcome of applying solidity's checked math to
+our interval analysis. It generates constraints that can be used by SMT solvers
+like Z3.
+
+Checked addition is the simplest arithmetic operation in interval analysis. Below is a table showing that under addition, the resulting minimum
+is just $$A_{min}$$ (denoted by $$v$$) + $$B_{min}$$ ( denoted by $$x$$), and the new maximum is $$A_{max}$$ (denoted by $$w$$) + $$B_{max}$$ (denoted by $$y$$).
+
+**type**   |$$A$$<br>$$[ v, w ]$$                                        |$$B$$<br>$$[ x, y ]$$                                        |$$A + B$$
+  ---------- | ---------------------------------------------------------------|---------------------------------------------------------------| ------------------------------
+  `uint`     | $$[ 0, 2^{256} - 1]$$           | $$[ 0, 2^{256} - 1 ]$$           |$$[ v + x,w + y]$$
+  `int`      | $$[ - 2^{255}, 2^{255} - 1 ]$$   | $$[ - 2^{255}, 2^{255} - 1 ]$$   |$$[ v + x,w + y]$$
+
+
+
+
+### Shrinking Intervals
+
+Another key part of solidity that affects intervals are `assert`s and `require`s. In this example, notice how we know have a
+complete understanding of what range of values could be returned from this function:
+
+```solidity
+function add(uint8 a, uint8 b) internal returns (uint8) {
+    require(a > 3);
+    require(a < 10);
+    require(b < 65);
+    require(b > 50);
+    return a + b;
+}
+```
+
+<Addition lhs_name={"a"} rhs_name={"b"} lhs_start={4} lhs_end={9} rhs_start={51} rhs_end={64} locked={true}/>
+
+This is beginning to be interval _analysis_.
+
+### Code Reachability via Interval Analysis
+As we apply interval arithmetic, and build up constraints on variables, we
+have actually started interval analysis which can be used for code reachability evaluation.
+
+
+```solidity
+function add(uint8 a, uint8 b) internal returns (uint8) {
+    require(a > 3);
+    require(a < 10);
+    require(b < 65);
+    require(b > 50);
+    if (a + b < 54) {
+        assert(false, "unreachable")
+    } else {
+        return 1;
+    }
+}
+```
+
+As we showed above, the *minimum* possible value of `a + b` after the require statements
+is 55. And so, we can determine that the true branch of the if statement is unreachable. What
+is cool about this approach is we did not need to break out any SMT solvers to solve constraints
+to determine this. We got code reachability analysis for "free"  by doing interval analysis (however, not all reachability is able to be
+determined by interval analysis).
+
+
+### Common Vulnerability Analysis
+
+Interval analysis via `require`s and `assert`s, even without arithmetic, can also immediately highlight access control issues and data validation issues. Below
+is an example of vulnerable code, take a second and try to find the issue.
+
+
+```solidity
+function mint(address to, uint amt) public onlyOwner {
+    _transfer(address(0), to, amt);
+}
+
+function transferViaSig(bytes32 mhash, bytes32 v, bytes32 r, bytes32 s, address to, uint amt) internal returns (bool) {
+    address from = ecrecover(mhash, v, r, s);
+    return _transfer(from, to, amt);
+}
+
+function _transfer(address from, address to, uint amt) internal returns (bool) {
+    if (from == address(0)) {
+        balances[to] += amt;
+    } else {
+        balances[from] -= amt;
+        balances[to] += amt;
+    }
+    return true;
+}
+```
+
+
+There is no validation on the address output from `ecrecover`. If the signature is invalid `ecrecover` will return `address(0)`. Via interval analysis,
+we can track that `from` has the interval `[0x0000..0000, 0xffff..ffff]`, and effectively anyone can mint. If the code had a `require(from != address(0))`,
+the interval would have been `[0x0000..0001, 0xffff..ffff]`, and the correct branch in `_transfer` would be hit.
+
+
+### Other Operations
+
+I really only dove deep into checked addition in this post, but each operation has its own quirks and generates unique constraints. If this was interesting
+to you, I am writing [`pyrometer`](https://github.com/nascentxyz/pyrometer), which does interval analysis for all solidity operations
+(checkout the [execution engine](https://github.com/nascentxyz/pyrometer/blob/90b03bbf4559c24f334b24613b0df51eaf9896a5/crates/graph/src/range/exec/exec_op.rs#L200) to see the implementation) - its undergoing a big
+change right now and would love some help. Hit me up on [twitter/x](https://x.com/brockjelmore) or [telegram](https://t.me/brockelmore) to chat about it!
+
+I also plan to write more here going forward so keep an eye out.
+
+### Movie Recommendation
+
+This week's movie recommendation is `In Bruges`. 8.9/10
+![in_bruges](./images/in_bruges.webp)

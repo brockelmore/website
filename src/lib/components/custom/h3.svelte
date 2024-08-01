@@ -21,7 +21,7 @@
 <a
 	bind:this={link}
 	href={''}
-	class="not-prose mt-4 group mb-4 flex flex-row w-full items-center gap-3 rounded text-3xl font-semibold tracking-tight text-gray-12 no-underline md:gap-4 md:text-4xl"
+	class="not-prose mt-4 group mb-4 flex flex-row w-full items-center gap-3 rounded text-xl font-semibold tracking-tight text-gray-12 no-underline md:gap-4 md:text-2xl"
 	data-sveltekit-preload-data="off"
 	on:click={() => {
 		navigator.clipboard.writeText(`${base}${pathname}#${id}`)
@@ -31,6 +31,6 @@
 		<slot />
 	</h1>
 	<Link
-		class="hidden size-5 text-gray-11 animate-in fade-in-50 group-hover:flex group-focus-visible:flex md:size-6"
+		class="hidden size-3 text-gray-11 animate-in fade-in-50 group-hover:flex group-focus-visible:flex md:size-6"
 	/>
 </a>
