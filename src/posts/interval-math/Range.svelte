@@ -9,68 +9,52 @@
 	let rightHandle
 	let body
 	let slider
+	let active
 
 	function draggable(node) {
-		let x
-		let y
-		function handleMousedown(event) {
-			if (event.type === 'touchstart') {
-				event = event.touches[0]
-			}
-			x = event.clientX
-			y = event.clientY
-			node.dispatchEvent(
-				new CustomEvent('dragstart', {
-					detail: { x, y }
-				})
-			)
-			window.addEventListener('mousemove', handleMousemove)
-			window.addEventListener('mouseup', handleMouseup)
-			window.addEventListener('touchmove', handleMousemove)
-			window.addEventListener('touchend', handleMouseup)
-		}
-		function handleMousemove(event) {
-			if (event.type === 'touchmove') {
-				event = event.changedTouches[0]
-			}
-			const dx = event.clientX - x
-			const dy = event.clientY - y
-			x = event.clientX
-			y = event.clientY
-			node.dispatchEvent(
-				new CustomEvent('dragmove', {
-					detail: { x, y, dx, dy }
-				})
-			)
-		}
-		function handleMouseup(event) {
-			x = event.clientX
-			y = event.clientY
-			node.dispatchEvent(
-				new CustomEvent('dragend', {
-					detail: { x, y }
-				})
-			)
-			window.removeEventListener('mousemove', handleMousemove)
-			window.removeEventListener('mouseup', handleMouseup)
-			window.removeEventListener('touchmove', handleMousemove)
-			window.removeEventListener('touchend', handleMouseup)
-		}
-		node.addEventListener('mousedown', handleMousedown)
-		node.addEventListener('touchstart', handleMousedown)
-		return {
-			destroy() {
-				node.removeEventListener('mousedown', handleMousedown)
-				node.removeEventListener('touchstart', handleMousedown)
-			}
-		}
-	}
-	function setHandlePosition(which) {
+      const onDown = getOnDown(node);
+
+      node.addEventListener("touchstart", onDown);
+      node.addEventListener("mousedown", onDown);
+      return {
+        destroy() {
+          node.removeEventListener("touchstart", onDown);
+          node.removeEventListener("mousedown", onDown);
+        }
+      };
+    }
+
+    function getOnDown(node) {
+      const onMove = getOnMove();
+
+      return function (e) {
+        e.preventDefault();
+        node.dispatchEvent(new CustomEvent("dragstart"));
+
+        const moveevent = "touches" in e ? "touchmove" : "mousemove";
+        const upevent = "touches" in e ? "touchend" : "mouseup";
+
+        document.addEventListener(moveevent, onMove);
+        document.addEventListener(upevent, onUp);
+
+        function onUp(e) {
+          e.stopPropagation();
+
+          document.removeEventListener(moveevent, onMove);
+          document.removeEventListener(upevent, onUp);
+
+          node.dispatchEvent(new CustomEvent("dragend"));
+        };
+      };
+    }
+
+	function getOnMove() {
 		if (!locked) {
 			return function (evt) {
 				const { left, right } = slider.getBoundingClientRect()
-				const p = Math.min(Math.max(evt.detail.x - left, 0), 255)
-				if (which === 'start') {
+				const clickOffset = "touches" in evt ? evt.touches[0].clientX : evt.clientX;
+				const p = Math.min(Math.max(clickOffset - left, 0), 255)
+				if (active === 'start') {
 					start = Math.floor(p)
 					end = Math.floor(Math.max(end, p))
 				} else {
@@ -115,7 +99,8 @@
     				bind:this={leftHandle}
     				data-which="start"
     				use:draggable
-    				on:dragmove|preventDefault|stopPropagation={setHandlePosition('start')}
+  				    on:dragstart={() => (active = "start")}
+                    on:dragend={() => (active = "")}
     				role="slider"
     				aria-valuemin="0"
     				aria-valuemax="255"
@@ -131,7 +116,8 @@
     				bind:this={rightHandle}
     				data-which="end"
     				use:draggable
-    				on:dragmove|preventDefault|stopPropagation={setHandlePosition('end')}
+    				on:dragstart={() => (active = "end")}
+                    on:dragend={() => (active = "")}
     				role="slider"
     				aria-valuemin="0"
     				aria-valuemax="255"
