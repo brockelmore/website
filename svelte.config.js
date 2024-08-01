@@ -1,7 +1,10 @@
-import adapter from '@sveltejs/adapter-auto'
+import {default as auto} from '@sveltejs/adapter-auto'
+import {default as vercel} from '@sveltejs/adapter-vercel'
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import { escapeSvelte, mdsvex } from 'mdsvex'
 import { createHighlighter } from 'shiki'
+import dotenv from 'dotenv'
+dotenv.config()
 
 import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex-svelte'
@@ -38,7 +41,7 @@ const config = {
 	extensions: ['.svelte', ...mdsvexOptions.extensions],
 	preprocess: [vitePreprocess(), mdsvex(mdsvexOptions)],
 	kit: {
-	 adapter: adapter(),
+	 adapter: process.env.DEV === true ? auto() : vercel(),
   }
 }
 
