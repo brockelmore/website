@@ -12,7 +12,7 @@
 		font-style: normal;
 		font-weight: 100 900;
 		font-display: swap;
-		src: url('../static/fonts/DMSans-VariableFont_opsz,wght.ttf') format('ttf');
+		src: url('$lib/fonts/DMSans-VariableFont_opsz,wght.ttf') format('ttf');
 		font-named-instance: 'Regular';
 	}
 
@@ -21,7 +21,7 @@
 		font-style: italic;
 		font-weight: 100 900;
 		font-display: swap;
-		src: url('../static/fonts/DMSans-Italic-VariableFont_opsz,wght.ttf') format('ttf');
+		src: url('$lib/fonts/DMSans-Italic-VariableFont_opsz,wght.ttf') format('ttf');
 		font-named-instance: 'Italic';
 	}
 }
@@ -33,7 +33,7 @@
 		font-family: 'DMMono';
 		font-style: normal;
 		font-weight: 300;
-		src: url('../static/fonts/DMMono-Light.ttf') format('ttf');
+		src: url('$lib/fonts/DMMono-Light.ttf') format('ttf');
 	}
 
 	@font-face {
@@ -42,7 +42,7 @@
 		font-family: 'DMMono';
 		font-style: normal;
 		font-weight: 400;
-		src: url('../static/fonts/DMMono-Regular.ttf') format('ttf');
+		src: url('$lib/fonts/DMMono-Regular.ttf') format('ttf');
 	}
 
 	@font-face {
@@ -51,7 +51,7 @@
 		font-family: 'DMMono';
 		font-style: normal;
 		font-weight: 500;
-		src: url('../static/fonts/DMMono-Medium.ttf') format('ttf');
+		src: url('$lib/fonts/DMMono-Medium.ttf') format('ttf');
 	}
 
 	@font-face {
@@ -60,7 +60,7 @@
 		font-family: 'DMMono';
 		font-style: italic;
 		font-weight: 400;
-		src: url('../static/fonts/DMMono-Italic.ttf') format('ttf');
+		src: url('$lib/fonts/DMMono-Italic.ttf') format('ttf');
 	}
 
 	@font-face {
@@ -69,7 +69,7 @@
 		font-family: 'DMMono';
 		font-style: italic;
 		font-weight: 500;
-		src: url('../static/fonts/DMMono-MediumItalic.ttf') format('ttf');
+		src: url('$lib/fonts/DMMono-MediumItalic.ttf') format('ttf');
 	}
 
 	@font-face {
@@ -78,7 +78,7 @@
 		font-family: 'DMMono';
 		font-style: italic;
 		font-weight: 300;
-		src: url('../static/fonts/DMMono-LightItalic.ttf') format('ttf');
+		src: url('$lib/fonts/DMMono-LightItalic.ttf') format('ttf');
 	}
 }
 

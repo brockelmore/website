@@ -3,13 +3,19 @@
 	import Article from '$lib/components/custom/Article.svelte'
 	import Badge from '$lib/components/badge/Badge.svelte'
 	import Layout from '../../Layout.svelte'
+	import { page } from '$app/stores'
 	export let data
+
+	let origin = $page.origin
+	let ogImgUrl = `https://brocke.xyz/og?description="${encodeURI(data.meta.description)}"&title="${encodeURI(data.meta.title)}"`
+	// let ogImgUrl = `${origin}/og?description=${data.meta.description}&title=${data.meta.title}`
 </script>
 
 <svelte:head>
 	<title>{data.meta.title}</title>
 	<meta property="og:type" content="article" />
 	<meta property="og:title" content={data.meta.title} />
+	<meta property="og:image" content={ogImgUrl} />
 </svelte:head>
 
 <Layout>

@@ -1,5 +1,5 @@
-import adapter from '@sveltejs/adapter-vercel'
-import { vitePreprocess } from '@sveltejs/kit/vite'
+import adapter from '@sveltejs/adapter-auto'
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import { escapeSvelte, mdsvex } from 'mdsvex'
 import { createHighlighter } from 'shiki'
 
@@ -38,8 +38,8 @@ const config = {
 	extensions: ['.svelte', ...mdsvexOptions.extensions],
 	preprocess: [vitePreprocess(), mdsvex(mdsvexOptions)],
 	kit: {
-		adapter: adapter()
-	}
+	 adapter: adapter(),
+  }
 }
 
 export default config
