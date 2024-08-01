@@ -110,7 +110,9 @@
     				left: {100 * (start / 256)}%
     			"
     			>
-                <div class="top_handle bg-yellow-400" />
+                {#if !locked}
+                    <div class="top_handle bg-yellow-400" />
+                    {/if}
                 </div>
     			<div
     				class="not-prose handle upper_handle after:bg-green-400"
@@ -129,7 +131,9 @@
     				left: {100 * (end / 256)}%
     			"
     			>
+                {#if !locked}
                 <div class="top_handle bg-green-400" />
+                {/if}
        </div>
 
     			<div class="not-prose labels pt-5">
