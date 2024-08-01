@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { dev } from '$app/environment';
+    import { inject } from '@vercel/analytics';
 	import Header from './header.svelte'
 	import Footer from './footer.svelte'
 	import PageTransition from './transition.svelte'
@@ -10,6 +12,8 @@
 	import '../app.css'
 
 	export let data
+
+	inject({ mode: dev ? 'development' : 'production' });
 </script>
 
 <div class="static dark w-full">
