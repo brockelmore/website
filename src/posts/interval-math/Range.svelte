@@ -103,8 +103,6 @@
     				bind:this={body}
     				class:bg-blue-500={!impossible}
     				class:bg-red-600={impossible}
-    				use:draggable
-    				on:dragmove|preventDefault|stopPropagation={setHandlesFromBody}
     				style="
     				left: {100 * (start / 256)}%;
     				right: {100 * (1 - end / 256)}%;
@@ -118,9 +116,6 @@
     				data-which="start"
     				use:draggable
     				on:dragmove|preventDefault|stopPropagation={setHandlePosition('start')}
-    				on:mouseenter={() => {
-    					leftHandle.width = '5px'
-    				}}
     				role="slider"
     				aria-valuemin="0"
     				aria-valuemax="255"
@@ -137,9 +132,6 @@
     				data-which="end"
     				use:draggable
     				on:dragmove|preventDefault|stopPropagation={setHandlePosition('end')}
-    				on:mouseenter={() => {
-    					rightHandle.width = '5px'
-    				}}
     				role="slider"
     				aria-valuemin="0"
     				aria-valuemax="255"
