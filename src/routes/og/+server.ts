@@ -15,7 +15,7 @@ async function componentToPng(component, props, height, width) {
 	const markup = toReactNode(`${result.html}<style>${result.css.code}</style>`);
 	const svg = await satori(markup, {
   	width: 1200,
-   height: 600,
+   height: 630,
 		fonts: [
 			{
 				name: 'DMSans',
