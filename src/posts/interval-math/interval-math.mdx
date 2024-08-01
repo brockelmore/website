@@ -113,11 +113,11 @@ like Z3.
 Checked addition is the simplest arithmetic operation in interval analysis. Below is a table showing that under addition, the resulting minimum
 is just $$A_{min}$$ (denoted by $$v$$) + $$B_{min}$$ ( denoted by $$x$$), and the new maximum is $$A_{max}$$ (denoted by $$w$$) + $$B_{max}$$ (denoted by $$y$$).
 
+
 **type**   |$$A$$<br>$$[ v, w ]$$                                        |$$B$$<br>$$[ x, y ]$$                                        |$$A + B$$
   ---------- | ---------------------------------------------------------------|---------------------------------------------------------------| ------------------------------
   `uint`     | $$[ 0, 2^{256} - 1]$$           | $$[ 0, 2^{256} - 1 ]$$           |$$[ v + x,w + y]$$
   `int`      | $$[ - 2^{255}, 2^{255} - 1 ]$$   | $$[ - 2^{255}, 2^{255} - 1 ]$$   |$$[ v + x,w + y]$$
-
 
 
 
