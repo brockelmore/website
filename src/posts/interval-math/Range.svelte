@@ -131,9 +131,9 @@
     				left: {100 * (end / 256)}%
     			"
     			>
-                {#if !locked}
+                <!-- {#if !locked}
                 <div class="top_handle bg-green-400" />
-                {/if}
+                {/if} -->
        </div>
 
     			<div class="not-prose labels pt-5">
