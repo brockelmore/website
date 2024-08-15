@@ -6,8 +6,6 @@
 
 	export let className
 	export let source
-
-	console.log(source)
 </script>
 
 <blockquote
