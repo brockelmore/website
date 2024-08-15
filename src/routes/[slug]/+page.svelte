@@ -6,9 +6,9 @@
 	import { page } from '$app/stores'
 	export let data
 
-	let origin = $page.origin
-	let ogImgUrl = `https://brocke.xyz/og?description=${encodeURIComponent(data.meta.description.replace("&", "and"))}&title=${encodeURIComponent(data.meta.path)}`
-	// let ogImgUrl = `${origin}/og?description=${data.meta.description}&title=${data.meta.title}`
+	let ogImgUrl = `https://brocke.xyz/og?description=${encodeURIComponent(
+		data.meta.description.replace('&', 'and')
+	)}&title=${encodeURIComponent(data.meta.path)}`
 </script>
 
 <svelte:head>
@@ -22,8 +22,8 @@
 	<meta property="og:image:alt" content={`Open Graph image for ${data.meta.title}`} />
 	<meta property="og:image:width" content="1200" />
 	<meta property="og:image:height" content="630" />
-	<meta property="twitter:card" content='summary_large_image' />
-	<meta property="twitter:creator" content='@brockjelmore' />
+	<meta property="twitter:card" content="summary_large_image" />
+	<meta property="twitter:creator" content="@brockjelmore" />
 	<meta property="twitter:title" content={data.meta.title} />
 	<meta property="twitter:description" content={data.meta.description} />
 	<meta property="twitter:image" content={ogImgUrl} />
